@@ -23,8 +23,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         public ImageView imgView;
         public MyViewHolder(View v){
             super(v);
-            textView1 = v.findViewById(R.id.textViewUsername);
-            textView2 = v.findViewById(R.id.textViewRepoName);
+            textView1 = v.findViewById(R.id.textView);
+            textView2 = v.findViewById(R.id.textView2);
             imgView = v.findViewById(R.id.imageView);
         };
     }
@@ -45,10 +45,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.textView1.setText(mDataset.get(position).getRepoName() + " - " + mDataset.get(position).getNumOfStars());
+        holder.textView1.setText("\u2605 " + mDataset.get(position).getNumOfStars() + " - " + mDataset.get(position).getRepoName());
         holder.textView2.setText(mDataset.get(position).getRepoOwner());
+
+        String URL = mDataset.get(position).getImgURL();
         Glide.with(holder.imgView.getContext())
-                .load(mDataset.get(position).getImgURL())
+                .load(URL)
                 .centerCrop()
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(holder.imgView);

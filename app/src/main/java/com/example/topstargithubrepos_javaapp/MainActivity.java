@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        Items demo1 = new Items("https://knowpathology.com.au/app/uploads/2018/07/Happy-Test-Screen-01.png", "TestRepo1", "mgolem00", 100);
-        Items demo2 = new Items("https://knowpathology.com.au/app/uploads/2018/07/Happy-Test-Screen-01.png", "TestRepo2", "jzelic00", 200);
+        Items demo1 = new Items("https://github.com/mgolem00.png", "TestRepo1", "mgolem00", 100);
+        Items demo2 = new Items("https://github.com/jzelic00.png", "TestRepo2", "jzelic00", 200);
         ArrayList<Items> arrayList = new ArrayList<Items>();
         arrayList.add(demo1);
         arrayList.add(demo2);
