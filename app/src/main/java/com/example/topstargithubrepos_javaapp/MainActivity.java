@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         arrayList.add(demo1);
         arrayList.add(demo2);
 
+
         final RecyclerView.Adapter adapter = new MyAdapter(arrayList);
         recyclerView.setAdapter(adapter);
     }
