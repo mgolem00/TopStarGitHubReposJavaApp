@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -22,6 +21,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,9 +39,30 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         final ArrayList<Model> GithubRepos=new ArrayList<>();
-        String url = "https://api.github.com/search/repositories?q=stars:%3E=100000";
+        //String url = "https://api.github.com/search/repositories?q=stars:%3E=100000";
 
 
+          Retrofit retrofit=new Retrofit.Builder()
+                .baseUrl(API.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        API api=retrofit.create(API.class);
+
+        Call<Model> call=api.getMyData();
+
+        call.enqueue(new Callback<Model>() {
+            @Override
+            public void onResponse(Call<Model> call, Response<Model> response) {
+                Model podaci=response.body();
+
+            }
+
+            @Override
+            public void onFailure(Call<Model> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
 
 
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -53,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
         final RecyclerView.Adapter adapter = new MyAdapter(arrayList);
         recyclerView.setAdapter(adapter);
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+        /*JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Gson gson = new Gson();
@@ -79,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 error.printStackTrace();
                 Log.d("Zadnji error", error.getMessage());
         }
-        );
+        );*/
     }
 }
 
