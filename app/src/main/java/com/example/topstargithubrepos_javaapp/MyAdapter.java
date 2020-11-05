@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
-    private ArrayList<Items> mDataset;
+    private ArrayList<Repository> mDataset;
     private MainActivity context;
 
     public static class MyViewHolder extends  RecyclerView.ViewHolder {
@@ -29,7 +29,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         };
     }
 
-    public MyAdapter(ArrayList<Items> myDataset){
+    public MyAdapter(ArrayList<Repository> myDataset){
         this.mDataset = myDataset;
     }
 
@@ -45,10 +45,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.textView1.setText("\u2605 " + mDataset.get(position).getNumOfStars() + " - " + mDataset.get(position).getRepoName());
-        holder.textView2.setText(mDataset.get(position).getRepoOwner());
+        holder.textView1.setText("\u2605 " + mDataset.get(position).getNumOfStars() + " - " + mDataset.get(position).getRepositoryName());
+        holder.textView2.setText(mDataset.get(position).getOwnerUsername());
 
-        String URL = mDataset.get(position).getImgURL();
+        String URL = mDataset.get(position).getOwnerURL();
         Glide.with(holder.imgView.getContext())
                 .load(URL)
                 .centerCrop()

@@ -5,11 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
+import android.util.Log;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,13 +28,37 @@ public class MainActivity extends AppCompatActivity {
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        Items demo1 = new Items("https://github.com/mgolem00.png", "TestRepo1", "mgolem00", 100);
+        /*Items demo1 = new Items("https://github.com/mgolem00.png", "TestRepo1", "mgolem00", 100);
         Items demo2 = new Items("https://github.com/jzelic00.png", "TestRepo2", "jzelic00", 200);
         ArrayList<Items> arrayList = new ArrayList<Items>();
         arrayList.add(demo1);
-        arrayList.add(demo2);
+        arrayList.add(demo2);*/
 
-        final RecyclerView.Adapter adapter = new MyAdapter(arrayList);
-        recyclerView.setAdapter(adapter);
+        //final RecyclerView.Adapter adapter = new MyAdapter(arrayList);
+        //recyclerView.setAdapter(adapter);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        API api = retrofit.create(API.class);
+        Call<Items> call = api.getRepositories();
+
+        call.enqueue(new Callback<Items>() {
+            @Override
+            public void onResponse(Call<Items> call, Response<Items> response) {
+                Log.d("Success","onResposne: " + response.toString());
+                ArrayList<Repository> repositories = response.body().getRepositories();
+
+                final RecyclerView.Adapter adapter = new MyAdapter(repositories);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<Items> call, Throwable t) {
+                Log.e("Error","onFailure: Something went wrong: " + t.getMessage());
+            }
+        });
     }
 }
